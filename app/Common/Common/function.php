@@ -1,4 +1,5 @@
 <?php
+define('SOURCE_TYPE_ZHONGZISO', 1);
 function logger($type, $msg)
 {
 	\Think\Log::write($msg,$type);
@@ -43,7 +44,7 @@ function checkUpdate($old, $old_name, $new, $new_name, &$update, $enable_empty =
 function checkUpdateInt($old, $old_name, $new, $new_name, &$update, $enable_empty = false)
 {
 	if (!isset($old[$old_name]) OR ( empty($new[$new_name]) AND $enable_empty == false) ) { return false; }
-	$new[$new_name] = trim($new[$new_name]);
+	$new[$new_name] = (int)trim($new[$new_name]);
 	if (!is_numeric($new[$new_name])) { return false; }
 	if ($old[$old_name] != $new[$new_name]) { $update[$new_name] = $new[$new_name]; }
 	return true;

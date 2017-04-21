@@ -15,17 +15,21 @@ class  FileListModel extends BaseModel
 
 	public function updateFileList($magnet_id, $data)
 	{
-		$where = array('magnet_id' => $magnet_i);
+		if (!is_array($data)) { return false; }
+		$where = array('magnet_id' => $magnet_id);
 		$old = $this->file_list_tbl->where($where)->find();	
 		if (empty($old)) {
+			$da = array('data' => $data, 'magnet_id' => $magnet_id);
+			return $this->file_list_tbl->data($this->encode($da))->add();
+		}else {
 			$da = array('data' => $data,);
-			$this->file_list_tbl->where($where)->data($da)->add();
+			return $this->file_list_tbl->where($where)->data($this->encode($da))->save();
 		}
 	}
 
 	private function encode($data)
 	{
-		if (isset($data['data'])) { $data['data'] = json_encode($data['data']); }
+		if (isset($data['data'])) { $data['data'] = json_encode($data['data'], JSON_UNESCAPED_UNICODE); }
 
 		return $data;
 	}

@@ -35,12 +35,20 @@ class MagnetModel extends BaseModel
 		checkUpdateInt($old, 'create_time', $new, 'create_time', $update);
 		checkUpdateInt($old, 'file_size', $new, 'file_size', $update);
 		checkUpdateInt($old, 'file_count', $new, 'file_count', $update);
+		checkUpdateInt($old, 'source_id', $new, 'source_id', $update);
+		checkUpdateInt($old, 'source_type', $new, 'source_type', $update);
 		checkUpdate($old, 'tags', $new, 'tags', $update);
-		//checkUpdate($old, 'file_list', $new, 'file_list', $update);
+
+		if (isset($update['tags'])) { D('tags')->pushNewTags($update['tags']); }
+
+		if (isset($new['file_list'])) {
+			D('file_list')->updateFileList($old['id'], $new['file_list']);
+		}
 
 		if (empty($update)) { 
+			$ret['msg'] = "更新的数据为空";
 			logger("ERR", "更新的数据为空".print_r($m, true));
-			return true; 
+			return false; 
 		}
 		return $this->updateMagnetByid($old['id'], $this->encode($update));
 	}
@@ -68,14 +76,12 @@ class MagnetModel extends BaseModel
 
 	public function updateMagnetByid($id, $data)
 	{
-		return $this->magnet_tbl->where(array('id' => $id))->data($data)->save();
+		return $this->magnet_tbl->where(array('id' => $id))->save($data);
 	}
 
 	private function encode($data)
 	{
-		if (isset($data['tags'])) { $data['tags'] = json_encode($data['tags']); }
-		if (isset($data['file_list'])) { $data['file_list'] = json_encode($data['file_list']); }
-
+		if (isset($data['tags'])) { $data['tags'] = json_encode($data['tags'], JSON_UNESCAPED_UNICODE); }
 		return $data;
 	}
 
@@ -83,9 +89,6 @@ class MagnetModel extends BaseModel
 	{
 		if (isset($data['tags']) AND !empty($data['tags'])) { $data['tags'] = json_decode($data['tags'], true); }
 		else { $data['tags'] = array(); }
-
-		if (isset($data['file_list'])) { $data['file_list'] = json_decode($data['file_list'], true); }
-		else { $data['file_list'] = array(); }
 
 		return $data;
 	}
