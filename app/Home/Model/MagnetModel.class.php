@@ -39,7 +39,6 @@ class MagnetModel extends BaseModel
 		checkUpdateInt($old, 'source_type', $new, 'source_type', $update);
 		checkUpdate($old, 'tags', $new, 'tags', $update);
 
-		if (isset($update['tags'])) { D('tags')->pushNewTags($update['tags']); }
 
 		if (isset($new['file_list'])) {
 			D('file_list')->updateFileList($old['id'], $new['file_list']);
@@ -50,8 +49,13 @@ class MagnetModel extends BaseModel
 			logger("ERR", "更新的数据为空".print_r($m, true));
 			return false; 
 		}
-		return $this->updateMagnetByid($old['id'], $this->encode($update));
+		$tmp = $this->updateMagnetByid($old['id'], $this->encode($update));
+
+		if (isset($update['tags'])) { D('tags')->pushNewTags($update['tags']); }
+
+		return $tmp;
 	}
+
 
 	public function tryGetMagnet($m)
 	{
