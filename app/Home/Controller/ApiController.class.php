@@ -27,7 +27,7 @@ class ApiController extends Controller {
 		$ret = array('err' => 0);
 		do {
 
-			if (I('get.sign') != '9BF4D5BC9A62') {
+			if (I('get.sign') != API_SIGN) {
 				$ret['err'] = 1;
 				$ret['msg'] = "invalid request";
 				logger("ERR", print_r($ret, true));
