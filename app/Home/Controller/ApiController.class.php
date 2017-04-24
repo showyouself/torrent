@@ -2,26 +2,29 @@
 namespace Home\Controller;
 use Think\Controller;
 class ApiController extends Controller {
-    public function index(){ }
-	
+	public function __construct(){
+		parent::__construct();
+		$this->magnet = D("magnet");
+	}
+	public function index(){ }
+
 	public function sync_magnet()
 	{
-		$magnet = D("magnet");
 		/*$data = array(
-				'hash_value' => 'DFA1A22C56D561D9FAEE2F4D5DA1A214BF161CC1',
-				'create_time' => 1492766457,
-				'file_size' => 12455745,
-				'file_count' => 1,
-				'tags' => array("速度", "激情", "速度与激情"),
-				'title' => "速度与激情",
-				'file_list' => array(
-					array(
-						"name" => "速度与激情请8",
-						"size" => 10232,
-						),
-					),
-				);
-		*/
+		  'hash_value' => 'DFA1A22C56D561D9FAEE2F4D5DA1A214BF161CC1',
+		  'create_time' => 1492766457,
+		  'file_size' => 12455745,
+		  'file_count' => 1,
+		  'tags' => array("速度", "激情", "速度与激情"),
+		  'title' => "速度与激情",
+		  'file_list' => array(
+		  array(
+		  "name" => "速度与激情请8",
+		  "size" => 10232,
+		  ),
+		  ),
+		  );
+		 */
 		$data = file_get_contents('php://input');
 		$data = json_decode($data, true);
 		$ret = array('err' => 0);
@@ -41,7 +44,7 @@ class ApiController extends Controller {
 				break;
 			}
 
-			if (!$magnet->syncMagnet($data, $ret)) {
+			if (!$this->magnet->syncMagnet($data, $ret)) {
 				logger("ERR","更新失败:".print_r($ret, true));
 				break;
 			}
@@ -50,4 +53,5 @@ class ApiController extends Controller {
 
 		$this->ajaxReturn($ret);
 	}
+
 }

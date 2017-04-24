@@ -78,9 +78,59 @@ class MagnetModel extends BaseModel
 		return $ret;
 	}
 
+	public function getMagnetById($id)
+	{
+		$ret = $this->magnet_tbl->where(array('id' => $id))->find();
+		if (!empty($ret)) { return $this->decode($ret); }
+		return $ret;
+	}
+
 	public function updateMagnetByid($id, $data)
 	{
 		return $this->magnet_tbl->where(array('id' => $id))->save($data);
+	}
+
+	public function searchByKw($kw, &$ret, $lim = NULL)
+	{
+		if (empty($kw)) {
+			$ret['msg'] = "empty kw";
+			$ret['err'] = 210;
+			return false;
+		} 
+
+		//仅查询前2个字段
+		$kw = preg_replace('/\s+/',' ', $kw);
+		$kw = explode(' ', $kw);
+		if (count($kw) > 1) { $kws[] = $kw[0]; $kws[] = $kw[1]; }
+		else { $kws[] = $kw[0]; }
+		
+		$ret['total'] = $this->searchKwCount($kws);
+
+		if (!empty($ret['total'])) {
+			$ret['msg'] = "success";
+			$ret['list'] = $this->searchByKwLike($kws, $lim);
+		}else {
+			$ret['list'] = array();
+		}
+
+		return $ret;
+	}
+
+	private function searchKwCount($kws)
+	{
+		foreach($kws as $kw) { $where['title'][] = array('like',"%$kw%"); }
+		$where['title'][] = 'and'; 
+		return (int)$this->magnet_tbl->where($where)->count();
+	}
+
+	private function searchByKwLike($kws, $lim)
+	{
+		$where = array();
+		foreach($kws as $kw) { $where['title'][] = array('like',"%$kw%"); }
+		$where['title'][] = 'and'; 
+		$sql = $this->magnet_tbl->where($where);
+		if (!empty($lim)) { $sql = $sql->limit($lim); }
+		return $sql->select();
 	}
 
 	private function encode($data)

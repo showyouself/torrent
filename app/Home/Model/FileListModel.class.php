@@ -27,6 +27,14 @@ class  FileListModel extends BaseModel
 		}
 	}
 
+	public function getFileListByMagnetId($magnet_id)
+	{
+		$where = array('magnet_id' => $magnet_id);
+		$old = $this->file_list_tbl->where($where)->find();	
+		if (!empty($old)) { return $this->decode($old)['data']; }	
+		return array();
+	}
+	
 	private function encode($data)
 	{
 		if (isset($data['data'])) { $data['data'] = json_encode($data['data'], JSON_UNESCAPED_UNICODE); }

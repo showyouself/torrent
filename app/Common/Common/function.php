@@ -49,3 +49,14 @@ function checkUpdateInt($old, $old_name, $new, $new_name, &$update, $enable_empt
 	if ($old[$old_name] != $new[$new_name]) { $update[$new_name] = $new[$new_name]; }
 	return true;
 }
+
+function kb2SizeName($size){
+	if ($size < 1024) {
+		return $size.'KB';
+	}else if($size < 1048576) {
+		return sprintf("%.2f",$size/1024)."MB";
+	}else {
+		return sprintf("%.2f",$size/1048576)."GB";
+	}
+
+}
