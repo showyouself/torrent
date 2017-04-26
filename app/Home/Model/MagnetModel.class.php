@@ -98,13 +98,7 @@ class MagnetModel extends BaseModel
 			return false;
 		} 
 
-		//仅查询前2个字段
-		$kw = preg_replace('/\s+/',' ', $kw);
-		$kw = explode(' ', $kw);
-		if (count($kw) > 1) { $kws[] = $kw[0]; $kws[] = $kw[1]; }
-		else { $kws[] = $kw[0]; }
-		
-		$ret['total'] = $this->searchKwCount($kws);
+		$kws = $this->filter_kw($kw);
 
 		if (!empty($ret['total'])) {
 			$ret['msg'] = "success";
@@ -116,8 +110,19 @@ class MagnetModel extends BaseModel
 		return $ret;
 	}
 
-	private function searchKwCount($kws)
+	private function filter_kw($kw) 
 	{
+		//仅查询前2个字段
+		$kw = preg_replace('/\s+/',' ', $kw);
+		$kw = explode(' ', $kw);
+		if (count($kw) > 1) { $kws[] = $kw[0]; $kws[] = $kw[1]; }
+		else { $kws[] = $kw[0]; }
+		return $kws;
+	}
+
+	public function searchKwCount($kws)
+	{
+		$kws = $this->filter_kw($kws);
 		foreach($kws as $kw) { $where['title'][] = array('like',"%$kw%"); }
 		$where['title'][] = 'and'; 
 		return (int)$this->magnet_tbl->where($where)->count();
@@ -125,6 +130,7 @@ class MagnetModel extends BaseModel
 
 	private function searchByKwLike($kws, $lim)
 	{
+
 		$where = array();
 		foreach($kws as $kw) { $where['title'][] = array('like',"%$kw%"); }
 		$where['title'][] = 'and'; 

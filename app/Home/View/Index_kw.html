@@ -1,0 +1,55 @@
+<include file="Public:header" />
+<body>
+<include file="Public:search" />
+<div class="container cont">
+<div class="demo-row typography-row">
+    <div class="demo-title">
+        <h3 class="demo-panel-title">搜索"<strong class="kw">{$kw}</strong>"的结果:</h3>
+		<small>共计{$ret['total']}个结果
+		<if condition="$ret['total'] gt 300">仅显示前300个结果</if>
+		<if condition="$ret['total'] eq 0">，<strong>{$ret['msg']}</strong></if>
+		</small>
+    </div>
+<if condition="$ret['err'] == 0">
+    <div class="demo-content">
+	<volist name="ret['list']" id="vo">
+        <div class="demo-type-example box">
+            <p><a class = "tit" href="{:U('Home/Index/dt',array('sign'=> $vo['id']))}">{$vo.title|str_ireplace=$kw,"<strong class='kw'>$kw</strong>",###}</a></p>
+            <small class="img-comment">
+			文件日期：<strong class="create-time">{$vo.create_time|date="Y-m-d",###}</strong>&nbsp;&nbsp;&nbsp;&nbsp;
+			文件大小：<strong class="size-color">{$vo.file_size}</strong>&nbsp;&nbsp;&nbsp;&nbsp; 
+			<a href="{:U('Home/Index/dt',array('sign'=> $vo['id']))}">详细信息</a><br></small>
+        </div>
+	</volist>
+    </div><!-- /.demo-content-wide -->
+	</div>
+
+<if condition="count($p['page_num']) gt 2">
+<div class="box">
+        <ul class="pagination">
+            <li class="previous"><a href="{:U('Home/Index/kw', array('kw' => $kw, 'p' => 1))}" class="fui-arrow-left"></a></li>
+			<volist name="p['page_num']" id="vo">
+			<li <if condition="$p['page'] eq $vo">class="active"</if>><a href="{:U('Home/Index/kw', array('kw' => $kw, 'p' => $vo))}">{$vo|trimall=###}</a></li>
+			</volist>
+            <li class="next"><a href="{:U('Home/Index/kw', array('kw' => $kw, 'p' => count($p['page_total'])))}" class="fui-arrow-right"></a></li>
+        </ul>
+</div>
+</if>
+</if>
+
+</div>
+</div>
+
+<include file="Public:footer" />
+<script>
+    $(function (){
+        $('.tags').click(function(){
+            var kw = $(this).children('a').html();
+            do_sub(kw);
+        });
+    });
+
+</script>
+<script charset="gbk" src="http://www.baidu.com/js/opensug.js"></script>
+</body>
+</html>

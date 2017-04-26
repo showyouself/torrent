@@ -1,0 +1,72 @@
+<include file="Public:header" />
+<body>
+<div class="container" style="min-height:700px">
+    <div class="row">
+    <div class="col-md-12">
+        <h4>{$ret['detail']['title']}</h4>
+    </div>
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="info row">
+                    <div class="col-xs-4"><b>创建时间</b>&nbsp;&nbsp;&nbsp;<span class="badge">{$ret['detail']['create_time']|date="Y-m-d",###}</span></div>
+                    <div class="col-xs-4"><b>文件大小</b>&nbsp;&nbsp;&nbsp;<span class="badge">{$ret['detail']['file_size']}</span></div>
+                    <div class="col-xs-4"><b>连接速度</b>&nbsp;&nbsp;&nbsp;<span class="badge">很快</span></div>
+                </div>
+                <div class="info row">
+                    <div class="col-xs-4"><b>文件数量</b>&nbsp;&nbsp;&nbsp;<span class="badge">{$ret['detail']['file_count']}</span></div>
+                    <div class="col-md-8"><b>种子哈希</b>&nbsp;&nbsp;&nbsp;<span class="badge green">{$ret['detail']['hash_value']}</span></div>
+                </div>
+				<notempty name="ret['detail']['tags']">
+                <div class="info otherkey">
+                    <b>搜索标签</b>&nbsp;&nbsp;&nbsp;
+					<volist name="ret['detail']['tags']" id="vo">
+					<a href="{:U('Home/Index/kw',array('kw'=> $vo))}" target="_blank"><span class="badge blue">{$vo}</span></a>&nbsp;&nbsp;
+					</volist>
+				</div>
+				</notempty>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col-md-12">
+        <h4 class="demo-panel-title">磁力链接：</h4>
+        <textarea  style="background-color:#E8FCE8" class="well magnet center col-md-12" id="MagnetLink" onclick="$(this).select();" readonly="">magnet:?xt=urn:btih:{$ret['detail']['hash_value']}&dn={$ret['detail']['title']|trimall=###} </textarea>
+    </div>
+    </div>
+	
+	<notempty name="ret['detail']['file_list']">
+    <div class="row">
+        <div class="col-md-12">
+            <h4 class="demo-panel-title">文件列表：</h4>
+            <table class="table table-striped">
+                <tbody><tr>
+                    <th colspan="2">
+                        <font color="red">&nbsp;&nbsp;复制上面的磁力链接，使用迅雷、百度云、115等离线下载</font>
+                    </th>
+                </tr>
+					<volist name="ret['detail']['file_list']" id="vo">
+                	<tr>
+                    	<td>{$vo['name']}</td>
+                    	<td>{$vo['size']}</td>
+                	</tr>
+					</volist>
+                </tbody></table>
+        </div>
+    </div>
+	</notempty>
+</div>
+<include file="Public:footer" />
+<script>
+    $(function (){
+        $('.tags').click(function(){
+            var kw = $(this).children('a').html();
+            do_sub(kw);
+        });
+    });
+
+</script>
+<script charset="gbk" src="http://www.baidu.com/js/opensug.js"></script>
+</body>
+</html>

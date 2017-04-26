@@ -1,0 +1,18 @@
+<include file="Public:header" />
+<body>
+<include file="Public:search" />
+<div class="container" style="min-height:380px"></div>
+
+<include file="Public:footer" />
+<script>
+    $(function (){
+        $('.tags').click(function(){
+            var kw = $(this).children('a').html();
+            do_sub(kw);
+        });
+    });
+
+</script>
+<script charset="gbk" src="http://www.baidu.com/js/opensug.js"></script>
+</body>
+</html>

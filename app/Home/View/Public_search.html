@@ -1,0 +1,32 @@
+<div class="demo-headline">
+    <h1 class="demo-logo">
+        <div style="width: 50%;margin:0px auto 24px" class="row">
+			<form method="get" action="{:U('Home/Index/kw')}" id="kwform">
+            <div class="col-xs-9">
+                <input type="text" value="" id="kw" name="kw" baiduSug="1" placeholder="输入你要搜索的内容...." class="form-control">
+            </div>
+            <div class="col-xs-3">
+                <button href="#fakelink" type="submit" class="btn btn-block btn-lg btn-inverse" onclick="sub()">搜索</button>
+            </div>
+			</form>
+			<script>
+			function sub(){
+				var kw = $("#kw").val();
+				if (kw == "") { return false; }
+				do_sub(kw);
+			}
+			function do_sub(kw)
+			{
+				window.location.href = "/Home/Index/kw?kw=" + kw;
+			}
+			</script>
+        </div>
+        <div style="width: 40%;margin:0px auto 24px" class="row">
+            <div class="col-xs-3 tags"><a href="#fakelink" class="btn btn-block btn-sm btn-inverse">韩国</a></div>
+            <div class="col-xs-3 tags"><a href="#fakelink" class="btn btn-block btn-sm btn-inverse">美女</a></div>
+            <div class="col-xs-3 tags"><a href="#fakelink" class="btn btn-block btn-sm btn-inverse">一本道</a></div>
+            <div class="col-xs-3 tags"><a href="#fakelink" class="btn btn-block btn-sm btn-inverse">tokyo</a></div>
+        </div>
+    </h1>
+</div>
+
