@@ -1,4 +1,5 @@
 <div class="demo-headline">
+<?php if (isset($h_total) AND !empty($h_total)) { echo '现已收录<span style="color:red">' . number_format($h_total) . '</span>条磁力种子(5 min 刷新)'; }; ?>
     <h1 class="demo-logo">
         <div style="width: 50%;margin:0px auto 24px" class="row">
 			<form method="get" action="{:U('Home/Index/kw')}" id="kwform">

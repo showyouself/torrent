@@ -8,6 +8,7 @@ class IndexController extends BaseController {
 		$this->magnet = D("magnet");
 		$this->file_list = D('file_list');
 		$this->assign('h_list', implode(' | ', $this->h_list));
+		$this->assign('h_total', $this->torrent_total());
 	}
 
 	public function index(){
