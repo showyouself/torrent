@@ -31,7 +31,7 @@ class BaseModel extends Model
 		if (!empty($this->redis)) { return true; }
 		$this->redis = new \Redis(); 
 		if (!$this->redis->connect(REDIS_HOST, REDIS_PORT)) {
-			logger("ERR", "connect to redis failed， check host and port first"; 
+			logger("ERR", "connect to redis failed， check host and port first"); 
 			return false;
 		}else { return true; }
 	}
