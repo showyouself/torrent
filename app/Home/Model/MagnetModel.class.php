@@ -162,14 +162,12 @@ class MagnetModel extends BaseModel
 	private function tryGetByRedis($kws, $pre_fix = "")
 	{
 		$kws = $pre_fix . implode("_", $kws);
-		if (!$this->redis_instance()) { return NULL; }
 		return $this->get_string_redis($kws);
 	}
 
 	private function trySetRedis($kws, $string, $expire = NULL, $pre_fix = NULL)
 	{
 		$kws = $pre_fix . implode("_", $kws);
-		if (!$this->redis_instance()) { return NULL; }
 		return $this->set_string_redis($kws, $string, $expire);
 	}
 
