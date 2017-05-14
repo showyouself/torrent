@@ -1,5 +1,13 @@
 <?php
 define('SOURCE_TYPE_ZHONGZISO', 1);
+define('REDIS_EXPIRE_TIME', 300);
+define('REDIS_SEARCH_TOTAL_PREFIX','search_kw_total_');
+define('REDIS_SEARCH_PREFIX', 'search_kw_');
+
+
+define('REDIS_HOST', '127.0.0.1');
+define('REDIS_PORT', '6379');
+
 function logger($type, $msg)
 {
 	\Think\Log::write($msg,$type);

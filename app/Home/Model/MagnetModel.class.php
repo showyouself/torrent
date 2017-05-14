@@ -6,7 +6,6 @@ use Think\Model;
 use Org\WeiXin\Encrypt;
 class MagnetModel extends BaseModel
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -123,21 +122,57 @@ class MagnetModel extends BaseModel
 	public function searchKwCount($kws)
 	{
 		$kws = $this->filter_kw($kws);
+
+		//读取redis
+		$count = $this->tryGetByRedis($kws, REDIS_SEARCH_TOTAL_PREFIX);
+		if (!empty($count)) { return $count; }
+		
 		foreach($kws as $kw) { $where['title'][] = array('like',"%$kw%"); }
 		$where['title'][] = 'and'; 
-		return (int)$this->magnet_tbl->where($where)->count();
+
+		$count = (int)$this->magnet_tbl->where($where)->count();
+
+		//设置redis
+		$this->trySetRedis($kws, $count, REDIS_EXPIRE_TIME, REDIS_SEARCH_TOTAL_PREFIX);
+
+		return $count; 
 	}
 
 	private function searchByKwLike($kws, $lim)
 	{
+
+		//读取redis
+		$list = $this->tryGetByRedis($kws, REDIS_SEARCH_PREFIX);
+		if (!empty($list)) { return json_decode($list, true); }
 
 		$where = array();
 		foreach($kws as $kw) { $where['title'][] = array('like',"%$kw%"); }
 		$where['title'][] = 'and'; 
 		$sql = $this->magnet_tbl->where($where);
 		if (!empty($lim)) { $sql = $sql->limit($lim); }
-		return $sql->select();
+		$list = $sql->select();
+
+		//设置redis
+		$this->trySetRedis($kws, json_encode($list), REDIS_EXPIRE_TIME, REDIS_SEARCH_PREFIX);
+
+		return $list;
+
 	}
+
+	private function tryGetByRedis($kws, $pre_fix = "")
+	{
+		$kws = $pre_fix . implode("_", $kws);
+		if (!$this->redis_instance()) { return NULL; }
+		return $this->get_string_redis($kws);
+	}
+
+	private function trySetRedis($kws, $string, $expire = NULL, $pre_fix = NULL)
+	{
+		$kws = $pre_fix . implode("_", $kws);
+		if (!$this->redis_instance()) { return NULL; }
+		return $this->set_string_redis($kws, $string, $expire);
+	}
+
 
 	private function encode($data)
 	{
