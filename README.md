@@ -1,7 +1,10 @@
 ## 这是一个种子搜索网站
 地址：http://torrent.zengbingo.com/
+发布脚本使用方法：https://github.com/showyouself/torrent/wiki
 
 ## 发布日志
+*tag v0.8*
+* 添加发布脚本用于发布 
 
 *tag v0.6*
 * 添加对redis对支持
