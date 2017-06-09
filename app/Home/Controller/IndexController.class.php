@@ -7,13 +7,13 @@ class IndexController extends BaseController {
 		parent::__construct();
 		$this->magnet = D("magnet");
 		$this->file_list = D('file_list');
+		$this->hot_movies = D('hot_movies');
+		$this->assign('tag_list', $this->hot_movies->getHotMovies());
 		$this->assign('h_list', implode(' | ', $this->h_list));
 		$this->assign('h_total', $this->torrent_total());
 	}
 
 	public function index(){
-            $this->hot_movies = D('hot_movies');
-            $this->assign('hot_list', $this->hot_movies->getHotMovies());
             $this->display();
 	}
 
@@ -41,6 +41,8 @@ class IndexController extends BaseController {
 				$ret['msg'] = "搜索结果为空";
 				break;
 			}
+
+			$this->hot_movies->tryAddCount($kw);
 
 			$page = I('get.p');
 			

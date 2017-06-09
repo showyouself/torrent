@@ -14,7 +14,17 @@ class  HotMoviesModel extends BaseModel
 
     public function getHotMovies()
     {
-        return $this->hot_movies->select();
+        return $this->hot_movies->order('count desc')->limit(10)->select();
+    }
+
+    public function tryAddCount($name)
+    {
+        if ($this->getHotMoivesByName($name)) {
+            return $this->hot_movies->where("name='{$name}'")->setInc('count', 1);
+        }else {
+            return $this->hot_movies->data(array('name' => $name , 'count' => 1))->add();
+        }
+        return false;
     }
 
     public function syncHotMovies($new, &$ret)
