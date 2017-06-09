@@ -12,7 +12,9 @@ class IndexController extends BaseController {
 	}
 
 	public function index(){
-		$this->display();
+            $this->hot_movies = D('hot_movies');
+            $this->assign('hot_list', $this->hot_movies->getHotMovies());
+            $this->display();
 	}
 
 	public function kw()
@@ -133,7 +135,7 @@ class IndexController extends BaseController {
 				'file_list' => array(),
 				);
 		$detail = filterIssetAndType($format, $detail);
-		$tmp['id'] = $this->encode_id($tmp['id']);
+		$tmp['id'] = $this->encode_id($detail['id']);
 		$detail['file_size'] = kb2SizeName($detail['file_size']);	
 
 		$detail['file_list'] = $this->file_list->getFileListByMagnetId($detail['id']);

@@ -21,6 +21,8 @@ class MagnetModel extends BaseModel
 			return false;
 		}
 
+                $new['hash_value'] = strtolower($new['hash_value']);
+
 		$old = $this->tryGetMagnet($new);
 		$update = array();
 		if (!$old) {
@@ -30,7 +32,6 @@ class MagnetModel extends BaseModel
 			return false;
 		}
 
-		checkUpdate($old, 'title', $new, 'title', $update);
 		checkUpdateInt($old, 'create_time', $new, 'create_time', $update);
 		checkUpdateInt($old, 'file_size', $new, 'file_size', $update);
 		checkUpdateInt($old, 'file_count', $new, 'file_count', $update);
@@ -65,7 +66,6 @@ class MagnetModel extends BaseModel
 				logger("ERR", "插入数据失败".print_r($m, true)); 
 				return false;
 			}
-	
 		}
 		return $this->getMagnetByHash($m['hash_value']); 
 	}

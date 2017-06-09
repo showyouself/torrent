@@ -1,7 +1,50 @@
 <include file="Public:header" />
+<style>
+    .span3
+    {
+        width: 220px;
+    }
+    [class*="span"]
+    {
+        float: left;
+        min-height:1px;
+        margin-left: 20px;
+    }
+    .index-image{
+        min-width: 180px;
+        width: 180px;
+        height: 260px;
+        border: 1px solid #ddd;
+        padding: 2px;
+    }
+    .index-tile{
+        background-color: #eff0f2;
+        border-radius: 6px;
+        padding: 10px;
+        margin-bottom: 20px;
+        position: relative;
+        text-align: center;
+    }
+    .index-p{
+        font-size:15px;
+    }
+</style>
 <body>
 <include file="Public:search" />
-<div class="container" style="min-height:380px"></div>
+<div class="container" style="min-height:380px">
+    <if condition="!empty($hot_list)">
+    <div class="row demo-tiles">
+        <volist name="hot_list" id="vo">
+            <a class="span3" href="{:U('Home/Index/kw',array('kw'=>$vo['name']))}">
+                <div class="index-tile">
+                    <img class="index-image" alt="" src="{$vo.logo_url|picUrl=###}">
+                    <p class="index-p">{$vo.name}</p>
+                </div>
+            </a>
+        </volist>
+    </div>
+    </if>
+</div>
 
 <include file="Public:footer" />
 <script>
@@ -11,7 +54,6 @@
             do_sub(kw);
         });
     });
-
 </script>
 <script charset="gbk" src="http://www.baidu.com/js/opensug.js"></script>
 </body>
