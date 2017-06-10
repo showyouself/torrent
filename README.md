@@ -3,6 +3,10 @@
 发布脚本使用方法：https://github.com/showyouself/torrent/wiki
 
 ## 发布日志
+*tag v1.2*
+* 添加tag热门搜索在搜索框下方
+* 爬取id97热门电影
+
 *tag v0.8*
 * 添加发布脚本用于发布 
 
