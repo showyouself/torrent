@@ -16,7 +16,7 @@
         <div class="demo-type-example box">
             <p><a class = "tit" href="{:U('Home/Index/dt',array('sign'=> $vo['id']))}">{$vo.title|str_ireplace=$kw,"<strong class='kw'>$kw</strong>",###}</a></p>
             <small class="img-comment">
-			文件日期：<strong class="create-time">{$vo.create_time|date="Y-m-d",###}</strong>&nbsp;&nbsp;&nbsp;&nbsp;
+			文件日期：<strong class="create-time"><if condition="$vo.create_time != 0"> {$vo.create_time|date="Y-m-d",###}<else />暂无</if></strong>&nbsp;&nbsp;&nbsp;&nbsp;
 			文件大小：<strong class="size-color">{$vo.file_size}</strong>&nbsp;&nbsp;&nbsp;&nbsp; 
 			<a href="{:U('Home/Index/dt',array('sign'=> $vo['id']))}">详细信息</a><br></small>
         </div>

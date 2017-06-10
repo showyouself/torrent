@@ -9,7 +9,7 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="info row">
-                    <div class="col-xs-4"><b>创建时间</b>&nbsp;&nbsp;&nbsp;<span class="badge">{$ret['detail']['create_time']|date="Y-m-d",###}</span></div>
+                    <div class="col-xs-4"><b>创建时间</b>&nbsp;&nbsp;&nbsp;<span class="badge"><if condition="$ret['detail']['create_time'] != 0" >{$ret['detail']['create_time']|date="Y-m-d",###}<else />暂无</if></span></div>
                     <div class="col-xs-4"><b>文件大小</b>&nbsp;&nbsp;&nbsp;<span class="badge">{$ret['detail']['file_size']}</span></div>
                     <div class="col-xs-4"><b>连接速度</b>&nbsp;&nbsp;&nbsp;<span class="badge">很快</span></div>
                 </div>
