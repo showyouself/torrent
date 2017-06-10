@@ -1,8 +1,13 @@
 ## 这是一个种子搜索网站
 地址：http://torrent.zengbingo.com/
-发布脚本使用方法：https://github.com/showyouself/torrent/wiki
+发布脚本使用方法：https://github.com/showyouself/deploy.sh
 
 ## 发布日志
+*tag v1.3 v1.4*
+* 修改id97爬取后压入redis的bug
+* 添加百度统计
+* 修复同步接口magnet的匹配原则，避免错误的数据入库
+
 *tag v1.2*
 * 添加tag热门搜索在搜索框下方
 * 爬取id97热门电影
