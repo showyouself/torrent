@@ -14,7 +14,7 @@ class MagnetModel extends BaseModel
 
 	public function syncMagnet($new, &$ret)
 	{
-		if (empty($new['hash_value']) OR empty($new['title'])) {
+		if (empty($new['hash_value']) OR empty($new['title']) OR preg_match('/^[a-zA-Z0-9]$/i', $new['hash_value'])) {
 			$ret['msg'] = "hash_value，title不能为空";
 			$ret['err'] = 100;
 			logger("ERR", print_r($ret, true));
