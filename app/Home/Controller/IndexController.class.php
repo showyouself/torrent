@@ -38,7 +38,7 @@ class IndexController extends BaseController {
 			$ret['total'] = $this->magnet->searchKwCount($kw);
 			if (empty($ret['total'])) {
 				$ret['err'] = 1;
-				$ret['msg'] = "搜索结果为空";
+				$ret['msg'] = "已将该词条压入爬取队列，稍后可以查看结果!";
 				break;
 			}
 

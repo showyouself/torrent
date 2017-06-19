@@ -7,7 +7,7 @@
         <h3 class="demo-panel-title">搜索"<strong class="kw">{$kw}</strong>"的结果:</h3>
 		<small>共计{$ret['total']}个结果
 		<if condition="$ret['total'] gt 300">仅显示前300个结果</if>
-		<if condition="$ret['total'] eq 0">，<strong>{$ret['msg']}</strong></if>
+		<if condition="$ret['total'] eq 0">，<strong style="color:green">{$ret['msg']}</strong></if>
 		</small>
     </div>
 <if condition="$ret['err'] == 0">

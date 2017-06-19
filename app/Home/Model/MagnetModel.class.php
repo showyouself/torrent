@@ -6,6 +6,7 @@ use Think\Model;
 use Org\WeiXin\Encrypt;
 class MagnetModel extends BaseModel
 {
+	const ZHONGZISO_TAGS = "ZhongzisoProcess_tags";
 	public function __construct()
 	{
 		parent::__construct();
@@ -46,7 +47,7 @@ class MagnetModel extends BaseModel
 
 		if (empty($update)) { 
 			$ret['msg'] = "更新的数据为空";
-			logger("ERR", "更新的数据为空".print_r($m, true));
+			logger("ERR", "更新的数据为空".print_r($new, true));
 			return false; 
 		}
 		$tmp = $this->updateMagnetByid($old['id'], $this->encode($update));
@@ -131,6 +132,16 @@ class MagnetModel extends BaseModel
 		$where['title'][] = 'and'; 
 
 		$count = (int)$this->magnet_tbl->where($where)->count();
+
+		//无结果就压入搜索队列
+		if ($count === 0) {
+		    unset($kw);
+
+		    foreach ($kws as $kw) {
+                        $list = $this->redis_instance()->lrange(self::ZHONGZISO_TAGS, 0, 100);
+                        if (empty($list) OR !in_array($kw, $list)) { $this->redis_instance()->rpush(self::ZHONGZISO_TAGS, $kw); }
+		    }
+		}
 
 		//设置redis
 		$this->trySetRedis($kws, $count, REDIS_EXPIRE_TIME, REDIS_SEARCH_TOTAL_PREFIX);

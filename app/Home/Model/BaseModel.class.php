@@ -28,12 +28,12 @@ class BaseModel extends Model
 
 	public function redis_instance()
 	{
-		if (!empty($this->redis)) { return true; }
+		if (!empty($this->redis)) { return $this->redis; }
 		$this->redis = new \Redis(); 
 		if (!$this->redis->connect(REDIS_HOST, REDIS_PORT)) {
-			logger("ERR", "connect to redis failed， check host and port first"); 
+			logger("ERR", "connect to redis failed， check host and port first");
 			return false;
-		}else { return true; }
+		}else { return $this->redis; }
 	}
 
 	public function get_string_redis($key) 
