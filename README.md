@@ -3,6 +3,9 @@
 发布脚本使用方法：https://github.com/showyouself/deploy.sh
 
 ## 发布日志
+*tag v1.5*
+添加搜索结果为空时，压入爬虫队列
+
 *tag v1.3 v1.4*
 * 修改id97爬取后压入redis的bug
 * 添加百度统计
